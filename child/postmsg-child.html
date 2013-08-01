@@ -27,7 +27,11 @@
 		//Send a message from the iframe to the "parent" window
 		//TODO; Configure the main page's domain
 		var myParent = window.parent;
-		myParent.postMessage('Child message', 'http://main-page-domain');
+		var parentDomain = 'http://parent-domain'; //TODO: configure parent domain
+		var msg = 'Child message';
+		var msgObj = {child: true, msg:'Child obj message'};
+		myParent.postMessage(msg, parentDomain);
+
 
 		console.log('Msg sent to parent');
 		//console.log(myParent);  //this will generate a cross-domain error in the console
