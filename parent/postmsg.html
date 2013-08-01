@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>postMessage test: Main page</title>
+	<style>
+		
+	</style>
+	
+	<!--- **************************
+		This is the main page of the test. It will send 3 messages to the iframe and has a handler to 
+		display when a message FROM the iframe arrives. The example is fully functional, you just need to configure
+		the appropiate domains (look for the TODOs)
+		
+		Obvious but IMPORTANT: Place in a different domain than the child (iframe) page.
+
+		This example is based on: http://davidwalsh.name/window-postmessage
+	************************** -->
+</head>
+<body>
+	
+	<h1>Hello, I am your father!</h1>
+	<h2>says Vader from the main page </h2>
+	
+	<!-- TODO: configure the correct route to  postmsg-child.html -->
+	<iframe src="http://iframe-domain/route-to/postmsg-child.html" border="0" style="width:500px;height:400px;border:1px solid #999;padding:0;" id="myIFrame"></iframe>
+
+
+	<script>
+		//create popup window
+		var domain = 'http://domain-of-the-iframe';	//TODO: configure the domain where the iframe is hosted
+		var iframe = document.getElementById('myIFrame').contentWindow;
+
+		//periodical message sender
+		var times = 0;
+		var inty = setInterval(function(){
+			var message = 'Hello!  The time is: ' + (new Date().getTime());
+			console.log('Vader:  sending message:  ' + message);
+			iframe.postMessage(message,domain);
+			if(++times == 3) { clearInterval(inty); }
+		},2000);
+		
+		//listen to reply
+		window.addEventListener('message',function(event) {
+			//if(event.origin !== 'http://...') return;  //TODO: (optional but recommended) Verify the origin of the call
+			console.log('Vader: received response:  ',event.data);
+		},false);
+	</script>
+	
+</body>
+</html>

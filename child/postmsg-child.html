@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>postMessage test: IFRAME</title>
+	<style>
+		
+	</style>
+
+	<!-- *******************
+		This is the code that will be loaded inside the iframe in the main page.
+		It will first send an "outbound" message to the parent and then listen for "inbound" messages from the parent window.
+		The example is fully functional, you just need to configure the appropiate domains (look for the TODOs)
+
+		Obvious but IMPORTANT: Place in a different domain than the "main" page.
+
+		This example is based on: http://davidwalsh.name/window-postmessage
+	************************ --> 
+
+</head>
+<body>
+	
+	
+	<h1>Nooooooooooooooooo!!!!!</h1>
+	<h2>says Luke from the iframe</h2>
+
+	<script>
+		//Send a message from the iframe to the "parent" window
+		//TODO; Configure the main page's domain
+		var myParent = window.parent;
+		myParent.postMessage('Child message', 'http://main-page-domain');
+
+		console.log('Msg sent to parent');
+		//console.log(myParent);  //this will generate a cross-domain error in the console
+
+		//respond to events
+		window.addEventListener('message',function(event) {
+			//if(event.origin != 'http://...') return;  //TODO: (optional but recommended) Verify the origin of the call
+			console.log('Luke:  message received: from ' + event.origin + ' ' + event.data); // event.data 
+			event.source.postMessage('holla back youngin!',event.origin);
+		},false);
+	</script>
+	
+	
+</body>
+</html>
