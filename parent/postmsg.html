@@ -41,9 +41,19 @@
 		
 		//listen to reply
 		window.addEventListener('message',function(event) {
-			//if(event.origin !== 'http://...') return;  //TODO: (optional but recommended) Verify the origin of the call
-			console.log('Vader: received response:  ',event.data);
+		//if(event.origin !== 'http://...') return;  //TODO: (optional but recommended) Verify the origin of the call
+		
+		if(typeof event.data === "object" && event.data.child === true) {
+			showAlert(event.data);
+		} else {
+			console.log('Vader: received response:  ',event.data);			
+		}
+
 		},false);
+		
+		function showMarquee(obj) {
+			alert('[Child: '+obj.child+'] ' + obj.msg );
+		}
 	</script>
 	
 </body>
